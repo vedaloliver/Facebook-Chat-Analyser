@@ -9,7 +9,8 @@ from pathlib import Path
 
 path_dir = os.path.join("C:\\", "Users", "Oliver", "Desktop",
                         "Code_Files", "Facebook_Scraper", "JSON_Files", "Sam")
-print(path_dir)
+
+print ("ketchbutt")
 
 print(os.path.exists(path_dir))
 
