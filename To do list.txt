@@ -1,0 +1,55 @@
+To do list:
+
+___ Thoughts ___
+
+https://www.youtube.com/watch?v=ChuU3NlYRLQ - get used to the debugger
+___ tiny bits ___
+
+- Continue removing junk/uninteresting words 
+- make a two word junk list
+
+- The word: fuck Has been said 1250 times.
+- -(figure out how to change to "fuck")
+___ To do Main : ___
+
+
+- While the phrase frequency is displaying based on your and sams parameters, it should realistically only show the 50 
+most frequent entries. this should be easily done.
+
+-- recepient freq 
+- display showing x number of participants in the chat
+- change to be able to appliy to any recepient and not you and sam
+
+-- word/phrase frequency:
+- could also have extra data showing frequency over different years
+- have a statement which tells you if the entry did not come up in the search for phrase.
+
+___ To do Foundational : ___
+
+- Figure out pushing to github
+- Figure out how to make this an application (pyui?)
+- Develop data viewing (matplotlib/wordclouds)
+-tidy up code
+
+___ relevant to only you: ___
+
+- youve converted the time 7 hours back as you are in a different time zone. this should be changed 
+as genreally wont be relevant to others
+- while you've got word receipient frequency done okay enough its only for you and sam and not for other people. amend this.
+
+__ Completed ___ : 
+
+ - Sorted to easier to read dictionary
+
+ - Word frequency
+
+ - Recipient frequency
+
+ - Time:
+
+ -- hour freq
+ -- month freq
+ -- year freq
+
+
+    
