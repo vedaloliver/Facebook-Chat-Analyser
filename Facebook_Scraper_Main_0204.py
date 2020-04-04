@@ -10,9 +10,6 @@ from pathlib import Path
 path_dir = os.path.join("C:\\", "Users", "Oliver", "Desktop",
                         "Code_Files", "Facebook_Scraper", "JSON_Files", "Sam")
 
-print ("ketchbutt")
-
-print(os.path.exists(path_dir))
 
 #print (os.path.exists("C:/Users/Oliver/Desktop/Code_files/Facebook_scraper/JSON_Files"))
 json_files = [pos_json for pos_json in os.listdir(
@@ -35,12 +32,11 @@ def Info_to_Dict(doc):
     Timestamp = []
     # * unpacks it, reversing down by 1
     Dict_key = [*range(len(doc), -1, -1)]
-    # adds to above empty lists
     for i in (range(len(doc))):
         Name.append(doc[i]['sender_name'])
         Content.append(doc[i].get('content'))
         Timestamp.append(doc[i].get('timestamp_ms'))
-    # list which is going to be the values (name,content, etc)
+
     Dict_values_list = (list(zip(Name, Content, Timestamp)))
     Dict_comp = (dict(zip(Dict_key, Dict_values_list)))
 
