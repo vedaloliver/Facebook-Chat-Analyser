@@ -8,33 +8,34 @@ ___ tiny bits ___
 - Continue removing junk/uninteresting words 
 - make a two word junk list
 
+- Iâ\x80\x99m cleanup which is found in other files
+
 - The word: fuck Has been said 1250 times.
-- -(figure out how to change to "fuck")
+- -(figure out how to change to "fuck". putting strings on either side gives " fuck ")
 ___ To do Main : ___
 
-
-- While the phrase frequency is displaying based on your and sams parameters, it should realistically only show the 50 
-most frequent entries. this should be easily done.
-
--- recepient freq 
-- display showing x number of participants in the chat
-- change to be able to appliy to any recepient and not you and sam
 
 -- word/phrase frequency:
 - could also have extra data showing frequency over different years
 - have a statement which tells you if the entry did not come up in the search for phrase.
+- have a statement to tell you that your search for a person was not sucessfull and will show everythin
+
+-- Ui basis
+-figure out a file uploading system. seemingly will have to only do this when you are creating gui and not now
+
+-django girls?
+- matplotlib stuff etc when you are doing ui too
 
 ___ To do Foundational : ___
 
-- Figure out pushing to github
-- Figure out how to make this an application (pyui?)
-- Develop data viewing (matplotlib/wordclouds)
+- Figure out how to make this an application (pyui/pyqt/tkinter?)
 -tidy up code
 
 ___ relevant to only you: ___
 
 - youve converted the time 7 hours back as you are in a different time zone. this should be changed 
 as genreally wont be relevant to others
+
 - while you've got word receipient frequency done okay enough its only for you and sam and not for other people. amend this.
 
 __ Completed ___ : 
