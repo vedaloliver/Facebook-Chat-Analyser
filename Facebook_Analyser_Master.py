@@ -6,52 +6,54 @@ from collections import Counter
 from datetime import datetime
 from nltk import ngrams
 from pathlib import Path
-from Junk_words import remove_shit
-
-
-path_dir = os.path.join("C:\\", "Users", "Oliver", "Desktop",
-                        "Code_Files", "Facebook_Scraper", "JSON_Files", "fam")
-
-
-json_files = [pos_json for pos_json in os.listdir(
-    path_dir) if pos_json.endswith('json')]
-
-json_text_list = []
-jsondata2 = []
 total_participants= {}
+Messages = {}
+
+def init():
+    #Gathers the inserted files and processes them for reading by subsequent functions
+    global Messages
+    def json_combine():
+        #Longer chats will have a greater number of files present, this is responsible for the combination into one main file
+        json_text_list = []
+        jsondata2 = []
+        json_files = [pos_json for pos_json in os.listdir() if pos_json.endswith('json')]
+
+        for index, js in enumerate(json_files):
+            with open(os.path.join( js), "r") as json_data:
+                json_text_list.append(json.load(json_data))
+
+        for i in range(len(json_text_list)):
+            jsondata2 += (json_text_list[i]['messages'])
+
+        return jsondata2
+    
+    def Info_to_Dict(doc):
+        #Unpacks the json data into a Dictionary for legibility
+        Name = []
+        Content = []
+        Timestamp = []
+        # * unpacks it, reversing down by 1
+        Dict_key = [*range(len(doc), -1, -1)]
+        for i in (range(len(doc))):
+            Name.append(doc[i]['sender_name'])
+            Content.append(doc[i].get('content'))
+            Timestamp.append(doc[i].get('timestamp_ms'))
+
+        Dict_values_list = (list(zip(Name, Content, Timestamp)))
+        Dict_comp = (dict(zip(Dict_key, Dict_values_list)))
+
+        return Dict_comp
 
 
-
-
-for index, js in enumerate(json_files):
-    with open(os.path.join(path_dir, js), "r") as json_data:
-        json_text_list.append(json.load(json_data))
-
-for i in range(len(json_text_list)):
-    jsondata2 += (json_text_list[i]['messages'])
-
-
-def Info_to_Dict(doc):
-    Name = []
-    Content = []
-    Timestamp = []
-    # * unpacks it, reversing down by 1
-    Dict_key = [*range(len(doc), -1, -1)]
-    for i in (range(len(doc))):
-        Name.append(doc[i]['sender_name'])
-        Content.append(doc[i].get('content'))
-        Timestamp.append(doc[i].get('timestamp_ms'))
-
-    Dict_values_list = (list(zip(Name, Content, Timestamp)))
-    Dict_comp = (dict(zip(Dict_key, Dict_values_list)))
-
-    return Dict_comp
-
-
-Messages = (Info_to_Dict(jsondata2))
+    Messages = (Info_to_Dict(json_combine()))
+    return Messages
 
 
 def phrase_frequency(dicts):
+    #This shows who is present in the chat, and prompts the user if they want to see phrase frequency on one individual or all of the chat
+    #Will subsequently ask if:
+    ## they want to see a list of most said words/phrases (user can choose n words to show phrase frequency)
+    ## They want to check how many times a specific word/phrase has been uttered 
     global total_participants
 
     print(""" 
@@ -75,17 +77,9 @@ def phrase_frequency(dicts):
     else:
         Which_freq = total_participants[participant]
 
-    #print (Which_freq)
-
-
     print("""
     Do you want to see a list of all the most said words, or do you want to check how many times a 
-    phrase has been said?
-
-    1 : List
-
-    2 : Phrase Check
-    """)
+    phrase has been said?\n\n    1 : List\n\n    2 : Phrase Check""")
 
     choice = int(input())
     n = 0
@@ -126,19 +120,18 @@ def phrase_frequency(dicts):
         def display_list(dicts):
             count = 0
             for w in sorted(dicts, key=dicts.get, reverse=True):
-                if w not in remove_shit:
-                    print(w, ": ", dicts[w])
-                    count += 1
-                    if count == 25:
-                        break
+                print(w, ": ", dicts[w])
+                count += 1
+                if count == 25:
+                    break
 
         def display_single(dicts):
             if p != (''):
                 for i in sorted(dicts, key=dicts.get, reverse=True):
-                    if p == i and n > 1 and (i not in remove_shit):
+                    if p == i and n > 1:
                         print("The phrase:", i, "Has been said",
                               dicts[i], "times.")
-                    if p == i and n == 1 and (i not in remove_shit):
+                    if p == i and n == 1:
                         print("The word:", i, "Has been said",
                               dicts[i], "times.")
 
@@ -147,10 +140,12 @@ def phrase_frequency(dicts):
         elif choice == 2:
             display_single(list_freq)
 
-    freq_count(str_to_list(Which_freq))
+    freq_count(str_to_list(Which_freq)),end_choices()
 
 
 def recipient_frequency(dicts):
+    #Relatively simply shows who is present in the chat, and the amount of messages they have sent
+    # also includes a proportion , but this is not working correctly
     global total_participants
     messages_freq = []
     for i in range(1, len(dicts), 1):
@@ -180,7 +175,7 @@ def recipient_frequency(dicts):
 
             if len(names) > 2:
                 print ("There are", len(names), "participants in the chat.")
-                print ("Below is a list of message frequency by recepient, in descending order: \n")
+                print ("Below is a list of message frequency of the recipients in the chat, in descending order: \n")
                 for i in sorted(list_freq_x, key=list_freq_x.get, reverse=True):
                         print(i, ": ", list_freq_x[i])
                                 
@@ -193,15 +188,16 @@ def recipient_frequency(dicts):
                 print(" and ".join(names), "have sent", " and ".join(
                    valuess), 'messages, Respectively.\n')
                 print("They would give them a message proportion of",
-                  ":".join(values_ratio), ".\n")
+                  " : ".join(values_ratio), ".\n")
 
             #print(len(names))
         freq_disp(list_freq_x)
-    messages_freq_count(messages_freq)
+    messages_freq_count(messages_freq), end_choices()
 
    
-
 def get_time(dicts):
+    #Provides information for when the messages have been sent
+    #An issue has arose about the Hour frequency - i am suspecting it may be due to a different time zone i am in affecting this.
     print('\n press H for hour frequency, M for Month frequency or Y for Year frequency.\n')
     x = input().lower()
 
@@ -209,14 +205,17 @@ def get_time(dicts):
         times = []
         timeset = ''
         if timez == 'h':
+            print('Below is the frequency of messages sent, organized by hour:')
             for msg in range(1, len(dicts), 1):
                 times.append((datetime.fromtimestamp(
                     int(str(dicts[msg][2])[:-3]))).hour)
         elif timez == 'm':
+            print('Below is the frequency of messages sent, organized by month:')
             for msg in range(1, len(dicts), 1):
                 times.append((datetime.fromtimestamp(
                     int(str(dicts[msg][2])[:-3]))).month)
         elif timez == 'y':
+            print('Below is the frequency of messages sent, organized by year:')
             for msg in range(1, len(dicts), 1):
                 times.append((datetime.fromtimestamp(
                     int(str(dicts[msg][2])[:-3]))).year)
@@ -243,12 +242,48 @@ def get_time(dicts):
             display(list_freq)
         freq_count(times)
 
-    time_chooser(x)
+    time_chooser(x),end_choices()
+    
 
-recipient_frequency(Messages)
-phrase_frequency(Messages)
-#get_time(Messages)
-#print (total_participants)
+
+def end_choices():
+    # gives the user a choice to go back and repick another category or exit the program
+    while True:
+        print('\n\nMain menu = 1, Exit program = 2')
+        end_choice = ((input()))
+        if end_choice == str(1):
+            choice()
+        elif end_choice == str(2):
+            print('Program terminated.')
+            break
+        else:
+            print("Invalid input. Please try again.")
+
+def choice():
+    #Essentially starts the program and allows the individual to have choice in what they want to see
+    choice = 0
+    print('Welcome to the facebook chat analyser. Information for the retrieval of your chat data is available on the readme.\n')
+    while True:
+        print('Phrase Frequency = 1\n\nRecipient Frequency = 2\n\nTime Statistics = 3: \n\nExit Program = 4:')
+        choice = ((input()))
+        if choice == str(1):
+            phrase_frequency(Messages)
+            break
+        elif choice == str(2):
+            recipient_frequency(Messages)
+            break
+        elif choice == str(3):
+            get_time(Messages)
+            break
+        elif choice == str(4):
+            print('\nProgram terminated.\n')
+            break
+        else:
+            print("Invalid. Please try again.")
+
+
+init()
+choice()
 
 
 

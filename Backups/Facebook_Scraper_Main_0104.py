@@ -174,10 +174,10 @@ def get_time(dicts):
             if w >= 7:
                 print (w-7, ": ", list_freq[w])
             if w < 7:
-                print (24-(7-w), ": ", list_freq[w])    
+                print (24-(7-w)), ": ", list_freq[w])    
 
     freq_count(times)
 
 #phrase_frequency(Messages)
-recipient_frequency(Messages)
-#get_time(Messages)
+#recipient_frequency(Messages)
+get_time(Messages)
