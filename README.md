@@ -8,9 +8,9 @@ ____________________________________________________________________________
 
 This was created to both test and display a number of competencies i have been learning, such as:
 
+- Comfort and understanding of project development
 - General algorithmic complexity
 - use of JSON parsing/scraping to gather necessary data
-- Visual representation of  data using packages such as Matplotlib
 
 ___________________________________________________________________________________________________
 
