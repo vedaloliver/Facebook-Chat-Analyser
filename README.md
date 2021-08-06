@@ -1,4 +1,4 @@
-# Simple Facebook Scraper
+# Facebook Chat Analyser
 
 
 Inspiration for this project came from the understanding that it was possible to gather and analyse freely available facebook data. Chat data in particular was of interest to me given the fact i have been using the platform as a primary use of socialiatstion and therefore had a lot of information to parse and produce meaningful results.
